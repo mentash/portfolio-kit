@@ -12,10 +12,21 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from pathlib import Path
+import environ
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env("SECRET_KEY")
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env.bool("DEBUG", default=False)
+
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -24,6 +35,7 @@ BASE_DIR = PROJECT_DIR.parent
 # Application definition
 
 INSTALLED_APPS = [
+    "apps.core",
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -46,6 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",  # Required for PostgreSQL-specific features
 ]
 
 MIDDLEWARE = [
@@ -85,12 +98,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# Uses django-environ to parse DATABASE_URL from .env file
+# Format: postgres://user:password@host:port/database_name
+# Falls back to SQLite for local development if DEV_DATABASE_URL is not set
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": env.db("DEV_DATABASE_URL", default="sqlite:///db.sqlite3")
 }
+
 
 
 # Password validation

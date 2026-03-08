@@ -12,6 +12,7 @@ This document outlines the Agile roadmap to build a Django/Wagtail-based Portfol
 
 - **User Story 1.1.1**: As a Developer, I want to set up a reproducible virtual environment so that dependencies are managed cleanly.
 - **User Story 1.1.2**: As a Developer, I want to initialize a Django project with a custom `User` model to allow future-proof authentication extensibility.
+- **Task**: Create virtual environment: `python -m venv .venv`.
 - **Task**: Configure `poetry` or `pip-tools` for dependency management.
 - **Task**: Set up `config` settings structure (base/dev/prod).
 
