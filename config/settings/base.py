@@ -36,6 +36,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 INSTALLED_APPS = [
     "apps.core",
+    "apps.images",
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -193,3 +194,13 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+# Use the custom image model so uploaded images support extra fields like caption.
+# Makes Wagtail use images.CustomImage for image foreign keys instead of wagtailimages.Image.
+WAGTAILIMAGES_IMAGE_MODEL = 'images.CustomImage'
+
+# Use the matching custom rendition model for generated image renditions.
+WAGTAILIMAGES_RENDITION_MODEL = 'images.CustomRendition'
+
+# Allowed file extensions for images in the image library.
+WAGTAILIMAGES_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']

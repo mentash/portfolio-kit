@@ -1,21 +1,23 @@
 {% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
 {% load static %}
 
-{% block body_class %}template-homepage{% endblock %}
-
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
+{% block title %}Mentash Portfolio{% endblock title %}
 
 {% block content %}
+    <h1>{{ page.title }}</h1>
+    <h2>{{ page.subtitle }}</h2>
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+    {% if page.body %}
+        {{ page.body|richtext }}
+    {% endif %}
+
+    {% if page.image %}
+        {% image page.image fill-600x600 format-jpeg as profile_img %}
+        <img src="{{ profile_img.url }}" alt="{{ page.image.title }}">
+    {% endif %}
+
+
+{#{% include 'home/welcome_page.html' %}#}
 
 {% endblock content %}
