@@ -37,6 +37,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 INSTALLED_APPS = [
     "apps.core",
     "apps.images",
+    "apps.documents",
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -204,3 +205,6 @@ WAGTAILIMAGES_RENDITION_MODEL = 'images.CustomRendition'
 
 # Allowed file extensions for images in the image library.
 WAGTAILIMAGES_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
+
+# Direct the default wagtail document model to the new custom document model, so uploaded documents support extra fields like description.
+WAGTAILDOCS_DOCUMENT_MODEL = 'documents.CustomDocument'
