@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.images",
     "apps.documents",
+    "apps.blog",
     "home",
     "search",
     "wagtail.contrib.forms",
