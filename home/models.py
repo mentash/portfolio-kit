@@ -3,6 +3,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from wagtail.images import get_image_model_string
+from wagtail.documents import get_document_model_string
 
 
 
@@ -19,11 +20,19 @@ class HomePage(Page):
         related_name='+'
     )
 
+    custom_document = models.ForeignKey(
+        get_document_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
 
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),
         FieldPanel("body"),
         FieldPanel("content"),
         FieldPanel("image"),
-    
+        FieldPanel("custom_document"),
     ]
