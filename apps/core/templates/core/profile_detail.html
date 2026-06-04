@@ -1,0 +1,38 @@
+{% extends 'config/base.html' %} 
+{% block title %}{{ profile.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h1 class="mb-1">{{ profile.name }}</h1>
+      <p class="text-muted">{{ profile.email }}</p>
+          {% if profile.bio %}
+              <p>{{ profile.bio }}</p>
+          {% endif %}
+
+      <h2 class="h4 mt-4">Experience</h2>
+      {% for exp in profile.experience.all %}
+            <div class="mb-3">
+                <strong>{{ exp.position }}</strong> — {{ exp.company }}<br>
+                <small class="text-muted">{{ exp.start_date }} – {{ exp.end_date|default:"Present" }}</small>
+                {% if exp.description %}
+                    <p class="mb-0">{{ exp.description }}</p>
+                {% endif %}
+            </div>
+            {% empty %}<p class="text-muted">No experience added yet.</p>
+        {% endfor %}
+
+      <h2 class="h4 mt-4">Skills</h2>
+      {% for skill in profile.skills.all %}
+        <div class="mb-2">
+          <div class="d-flex justify-content-between">
+            <span>{{ skill.name }}</span><span class="text-muted">{{ skill.proficiency }}/10</span>
+          </div>
+          <div class="progress" role="progressbar">
+            <div class="progress-bar" style="width: {% widthratio skill.proficiency 10 100 %}%"></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}
