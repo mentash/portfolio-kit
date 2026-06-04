@@ -1,14 +1,36 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+
+class User(AbstractUser):
+    # We keep username for now (simplest), but you could drop it later
+    # and make email the login field. Starting from AbstractUser gives us
+    # room to add fields without fighting Django's auth internals.
+    email = models.EmailField(
+        unique=True, 
+        verbose_name='Email Address'
+    )
+
+    def __str__(self):
+        return self.username or self.email
 
 # Create your models here.
 class Profile(models.Model):
+    # One-to-one relationship with User, so each user has one profile
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='profile'
+    )
+    
     name = models.CharField(max_length=100)
     email = models.EmailField(
         unique=True,
         help_text='Enter a valid email address.',
         verbose_name='Email Address'
     )
+    
     bio = models.TextField(
         blank=True,
         help_text='Write a short bio about yourself.',
