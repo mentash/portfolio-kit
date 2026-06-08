@@ -1,28 +1,9 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
-
-class User(AbstractUser):
-    # We keep username for now (simplest), but you could drop it later
-    # and make email the login field. Starting from AbstractUser gives us
-    # room to add fields without fighting Django's auth internals.
-    email = models.EmailField(
-        unique=True, 
-        verbose_name='Email Address'
-    )
-
-    def __str__(self):
-        return self.username or self.email
 
 # Create your models here.
 class Profile(models.Model):
-    # One-to-one relationship with User, so each user has one profile
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE, 
-        related_name='profile'
-    )
+    id = models.AutoField(primary_key=True)
     
     name = models.CharField(max_length=100)
     email = models.EmailField(
@@ -62,7 +43,13 @@ class Certification(models.Model):
         return f"{self.name} from {self.issuing_organization}"
     
 class Experience(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='experience')
+    # Link an Experience to a Profile using a ForeignKey with related_name for reverse access
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='experience'
+    )
+    
     company = models.CharField(max_length=200)
     position = models.CharField(max_length=100)
     start_date = models.DateField()
@@ -73,8 +60,15 @@ class Experience(models.Model):
         return f"{self.position} at {self.company}"
 
 class Skill(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='skills')
+    # Link a Skill to a Profile using a ForeignKey with related_name for reverse access
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='skills'
+    )
+    
     name = models.CharField(max_length=100)    
+    
     proficiency = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)],
         help_text='Proficiency level from 1 to 10'
@@ -84,11 +78,20 @@ class Skill(models.Model):
         return f"{self.name} (Proficiency: {self.proficiency}/10)"
 
 class Project(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='projects')
+    
+    # Link a Project to a Profile using a ForeignKey with related_name for reverse access
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='projects'
+    )
+    
+    
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     url = models.URLField(blank=True)
     
+    # Many-to-many relationship with Experience through an intermediary model
     experience = models.ManyToManyField(
         Experience, 
         blank=True, 
