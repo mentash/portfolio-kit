@@ -1,0 +1,22 @@
+{% extends 'config/base.html' %} 
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <h1 class="mb-4">Profiles</h1>
+
+    {% if profiles %}
+    <ul>
+        {% for profile in profiles %}
+        <li>
+            <a href="{% url 'core:profile_detail' profile.pk %}">
+            {{ profile.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No profiles yet.</p>
+    {% endif %}
+
+{% endblock %}
