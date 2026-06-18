@@ -10,7 +10,13 @@ A Django-based portfolio application.
 ## Project Structure
 - apps/core: Domain app (views, models, templates, urls)
 - config: Django project settings and root URL config
-- docs: Project notes and backlog
+- templates: Project-level templates (base layout at templates/config/base.html)
+- docs: Project notes, roadmap, and backlog
+
+## Documentation
+- docs/PROJECT_DESCRIPTION.md — what this project is and its vision
+- docs/ROADMAP.md — current, short-term, and long-term plans
+- docs/AGILE_BACKLOG.md — implementable, learning-first work items
 
 ## Quick Start
 1. Create and activate a virtual environment.
@@ -44,13 +50,12 @@ A Django-based portfolio application.
   python manage.py createsuperuser
 
 ## Templates
-The project-level template directory is configured under:
-- config/templates
+Project-level templates live under the top-level `templates/` directory (configured in `TEMPLATES['DIRS']`).
 
-Example namespaced base template:
-- config/templates/config/base.html
+Base layout:
+- templates/config/base.html
 
-App templates can extend it using:
+App templates (e.g. apps/core/templates/core/) extend it using:
 
 {% extends 'config/base.html' %}
 
