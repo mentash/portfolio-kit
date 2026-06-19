@@ -1,0 +1,29 @@
+<!-- Hero/About Section -->
+<section id="about" class="py-5 bg-light">
+    <div class="container-xl">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-3">{{ profile.name }}</h1>
+                {% if profile.title %}
+                    <p class="lead text-secondary mb-3">{{ profile.title }}</p>
+                {% endif %}
+                {% if profile.bio %}
+                    <p class="mb-3">{{ profile.bio|linebreaks }}</p>
+                {% endif %}
+                <div>
+                    {% if profile.email %}
+                        <a href="mailto:{{ profile.email }}" class="btn btn-primary">Email Me</a>
+                    {% endif %}
+                    {% if profile.phone %}
+                        <a href="tel:{{ profile.phone }}" class="btn btn-outline-primary">Call Me</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% if profile.avatar %}
+                <div class="col-md-4 text-center">
+                    <img src="{{ profile.avatar.url }}" alt="{{ profile.name }}" class="img-fluid rounded-3" style="max-width: 250px;">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>

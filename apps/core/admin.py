@@ -1,30 +1,33 @@
 from django.contrib import admin
-from .models import Profile, Education, Certification, Experience, Skill, Project
 
-# Register your models here.
+from .models import Certification, Education, Experience, Profile, Project, Skill
 
-# Admin classes to manage related models inline with Profile
 
-# Admin class for Education to be displayed inline with Profile
 class EducationInline(admin.TabularInline):
     model = Education
-    extra = 1
-    
-# Admin class for Experience and Skill to be displayed inline with Profile
+    extra = 0
+
+
 class ExperienceInline(admin.TabularInline):
     model = Experience
-    extra = 1
+    extra = 0
 
-# Admin class for Skill to be displayed inline with Profile
+
 class SkillInline(admin.TabularInline):
     model = Skill
-    extra = 1
+    extra = 0
 
-# Admin class for Profile to include Education, Experience, and Skill inlines
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email')
+    list_display = ("name", "email")
     inlines = [EducationInline, ExperienceInline, SkillInline]
 
-# Registering Certification and Project models separately
+    def has_add_permission(self, request):
+        # Prevent adding a second profile; single-owner app
+        if Profile.objects.exists():
+            return False
+        return super().has_add_permission(request)
+
+
 admin.site.register([Certification, Project])

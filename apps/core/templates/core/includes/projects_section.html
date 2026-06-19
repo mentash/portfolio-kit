@@ -1,0 +1,38 @@
+<!-- Projects Section -->
+<section id="projects" class="py-5">
+    <div class="container-xl">
+        <h2 class="mb-4">Projects</h2>
+        <div class="row g-3">
+            {% for project in profile.projects.all %}
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        {% if project.image %}
+                            <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.name }}" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.name }}</h5>
+                            <p class="card-text">{{ project.description }}</p>
+                            {% if project.technologies %}
+                                <p class="card-text">
+                                    <small class="text-secondary">Tech: {{ project.technologies }}</small>
+                                </p>
+                            {% endif %}
+                        </div>
+                        {% if project.project_url or project.github_url %}
+                            <div class="card-footer bg-transparent">
+                                {% if project.project_url %}
+                                    <a href="{{ project.project_url }}" target="_blank" class="btn btn-link btn-sm">View Project</a>
+                                {% endif %}
+                                {% if project.github_url %}
+                                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-link btn-sm">GitHub</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-secondary">No projects yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>

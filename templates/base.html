@@ -1,21 +1,23 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>
-            {% block title %}Profiles{% endblock %}
-        </title>
-        <link href="{% static 'tabler/css/tabler.min.css' %}" rel="stylesheet">
-    </head>
+<head>
+    {% include 'includes/head.html' %}
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="page">
+        {% include 'includes/navbar.html' %}
 
-    <body>
-        <main class="container py-4">
+        <!-- Main content -->
+        <main id="top" class="page-wrapper">
             {% block content %}{% endblock %}
         </main>
-        <script src="{% static 'tabler/js/tabler.min.js' %}"></script>
-    </body>
 
+        {% include 'includes/footer.html' %}
+    </div>
+
+    {% include 'includes/scripts.html' %}
+    {% block extra_scripts %}{% endblock %}
+</body>
 </html>

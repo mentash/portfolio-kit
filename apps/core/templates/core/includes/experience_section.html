@@ -1,0 +1,30 @@
+<!-- Experience Section -->
+<section id="experience" class="py-5">
+    <div class="container-xl">
+        <h2 class="mb-4">Experience</h2>
+        {% for exp in profile.experience.all %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="card-title">{{ exp.title }}</h5>
+                            <p class="card-subtitle text-secondary mb-2">{{ exp.company }}</p>
+                            <p class="card-text">{{ exp.description }}</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="text-secondary">
+                                {% if exp.end_date %}
+                                    {{ exp.start_date|date:"M Y" }} – {{ exp.end_date|date:"M Y" }}
+                                {% else %}
+                                    {{ exp.start_date|date:"M Y" }} – Present
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-secondary">No experience yet.</p>
+        {% endfor %}
+    </div>
+</section>

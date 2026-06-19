@@ -1,22 +1,26 @@
-{% extends 'base.html' %} 
-{% block title %}Home{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}
 
 {% block content %}
-
-    <h1 class="mb-4">Profiles</h1>
-
-    {% if profiles %}
-    <ul>
-        {% for profile in profiles %}
-        <li>
-            <a href="{% url 'core:profile_detail' profile.pk %}">
-            {{ profile.name }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="container-xl py-5">
+    {% if profile %}
+        {% include 'core/includes/hero_section.html' %}
+        {% include 'core/includes/experience_section.html' %}
+        {% include 'core/includes/skills_section.html' %}
+        {% include 'core/includes/education_section.html' %}
+        {% include 'core/includes/certifications_section.html' %}
+        {% include 'core/includes/projects_section.html' %}
     {% else %}
-    <p>No profiles yet.</p>
+        <!-- Empty state -->
+        <div class="empty">
+            <div class="empty-header">404</div>
+            <p class="empty-title">Your portfolio has not been configured yet</p>
+            <p class="empty-subtitle text-secondary">
+                Create one Profile in Django Admin, then add experience, skills, education, certifications, and projects.
+            </p>
+        </div>
     {% endif %}
-
+</div>
 {% endblock %}

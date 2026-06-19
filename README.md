@@ -1,69 +1,38 @@
 # Portfolio App
 
-A Django-based portfolio application.
+A Django-based single-person portfolio application using Tabler UI.
 
 ## Tech Stack
 - Python 3.12+
 - Django 6
+- Tabler UI (admin dashboard framework, repurposed for portfolio)
 - SQLite (development)
 
 ## Project Structure
-- apps/core: Domain app (views, models, templates, urls)
-- config: Django project settings and root URL config
-- templates: Project-level templates (base layout at templates/config/base.html)
-- docs: Project notes, roadmap, and backlog
-
-## Documentation
-- docs/PROJECT_DESCRIPTION.md — what this project is and its vision
-- docs/ROADMAP.md — current, short-term, and long-term plans
-- docs/AGILE_BACKLOG.md — implementable, learning-first work items
+- `apps/core/` — portfolio domain models, views, templates, admin, tests
+- `config/` — Django project settings and root URL config
+- `templates/` — project-level templates (including `base.html`)
+- `static/` — Tabler assets and project-specific CSS/JS
+- `docs/` — project notes, roadmap, and backlog
 
 ## Quick Start
-1. Create and activate a virtual environment.
-2. Install dependencies:
+1. Create and activate a virtual environment
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run migrations: `python manage.py migrate`
+4. Create a superuser: `python manage.py createsuperuser`
+5. Run the dev server: `python manage.py runserver`
+6. Visit `http://127.0.0.1:8000/` to see your portfolio
+7. Edit content at `http://127.0.0.1:8000/admin/`
 
-   pip install django
+## Features
+- **Single-person portfolio:** one profile, multiple content sections
+- **Responsive design:** works on desktop, tablet, and mobile
+- **All sections visible:** About, Experience, Skills, Education, Certifications, Projects
+- **Smooth navigation:** sticky navbar with section links
+- **Admin-managed content:** all data edited through Django Admin
 
-3. Run migrations:
-
-   python manage.py migrate
-
-4. Start the development server:
-
-   python manage.py runserver
-
-5. Open:
-
-   http://127.0.0.1:8000/
-
-## Useful Commands
-- Create migrations:
-
-  python manage.py makemigrations
-
-- Apply migrations:
-
-  python manage.py migrate
-
-- Create superuser:
-
-  python manage.py createsuperuser
-
-## Templates
-Project-level templates live under the top-level `templates/` directory (configured in `TEMPLATES['DIRS']`).
-
-Base layout:
-- templates/config/base.html
-
-App templates (e.g. apps/core/templates/core/) extend it using:
-
-{% extends 'config/base.html' %}
-
-## Git Notes
-This repository ignores local-only and sensitive files by default:
-- .venv/
-- db.sqlite3
-- .env
-- generated static/media output
-
-If you need to share environment variable names, add an .env.example file with placeholders.
+## How to Add Content
+1. Log in to `/admin/`
+2. Create/edit your Profile (name, email, bio)
+3. Add Experience, Skills, Education, Certifications, Projects
+4. They appear automatically on the public site

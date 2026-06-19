@@ -1,0 +1,20 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--tblr-bg-surface-secondary);
+}
+
+.card-lg {
+    border-radius: 1rem;
+}
+
+section {
+    scroll-margin-top: 5rem;
+}
+
+.timeline-item {
+    padding-left: 1rem;
+    border-left: 3px solid var(--tblr-primary);
+}

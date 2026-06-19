@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% block title %}{{ profile.name }}{% endblock %}
+
+{% block content %}
+<div class="container-xl py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            {% include 'core/includes/hero_section.html' %}
+            {% include 'core/includes/experience_section.html' %}
+            {% include 'core/includes/skills_section.html' %}
+            {% include 'core/includes/education_section.html' %}
+            {% include 'core/includes/certifications_section.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

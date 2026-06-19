@@ -1,118 +1,125 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 
-# Create your models here.
+
 class Profile(models.Model):
     id = models.AutoField(primary_key=True)
-    
     name = models.CharField(max_length=100)
     email = models.EmailField(
         unique=True,
-        help_text='Enter a valid email address.',
-        verbose_name='Email Address'
+        help_text="Enter a valid email address.",
+        verbose_name="Email Address",
     )
-    
     bio = models.TextField(
         blank=True,
-        help_text='Write a short bio about yourself.',
-        verbose_name='Biography'
+        help_text="Write a short bio about yourself.",
+        verbose_name="Biography",
     )
+
+    class Meta:
+        ordering = ["id"]
 
     def __str__(self):
         return self.name
-    
+
+
 class Education(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='education')
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="education"
+    )
     institution = models.CharField(max_length=200)
     degree = models.CharField(max_length=100)
     field_of_study = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
 
+    class Meta:
+        ordering = ["-start_date", "-end_date", "institution"]
+
     def __str__(self):
         return f"{self.degree} in {self.field_of_study} from {self.institution}"
-    
+
+
 class Certification(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='certifications')
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="certifications"
+    )
     name = models.CharField(max_length=200)
     issuing_organization = models.CharField(max_length=200)
     issue_date = models.DateField()
     expiration_date = models.DateField(blank=True, null=True)
 
+    class Meta:
+        ordering = ["-issue_date", "name"]
+
     def __str__(self):
         return f"{self.name} from {self.issuing_organization}"
-    
+
+
 class Experience(models.Model):
-    # Link an Experience to a Profile using a ForeignKey with related_name for reverse access
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='experience'
+        related_name="experience",
     )
-    
     company = models.CharField(max_length=200)
     position = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ["-start_date", "-end_date", "company"]
+
     def __str__(self):
         return f"{self.position} at {self.company}"
 
+
 class Skill(models.Model):
-    # Link a Skill to a Profile using a ForeignKey with related_name for reverse access
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='skills'
+        related_name="skills",
     )
-    
-    name = models.CharField(max_length=100)    
-    
+    name = models.CharField(max_length=100)
     proficiency = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)],
-        help_text='Proficiency level from 1 to 10'
+        help_text="Proficiency level from 1 to 10",
     )
+
+    class Meta:
+        ordering = ["-proficiency", "name"]
 
     def __str__(self):
         return f"{self.name} (Proficiency: {self.proficiency}/10)"
 
+
 class Project(models.Model):
-    
-    # Link a Project to a Profile using a ForeignKey with related_name for reverse access
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='projects'
+        related_name="projects",
     )
-    
-    
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     url = models.URLField(blank=True)
-    
-    # Many-to-many relationship with Experience through an intermediary model
     experience = models.ManyToManyField(
-        Experience, 
-        blank=True, 
-        through='ProjectExperience',
-        related_name='projects'
+        Experience,
+        blank=True,
+        through="ProjectExperience",
+        related_name="projects",
     )
+
+    class Meta:
+        ordering = ["-name"]
 
     def __str__(self):
         return self.name
 
-# Intermediary model to link Projects and Experiences
+
 class ProjectExperience(models.Model):
-    project = models.ForeignKey(
-        Project, 
-        on_delete=models.CASCADE
-    )
-    
-    experience = models.ForeignKey(
-        Experience, 
-        on_delete=models.CASCADE
-    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    experience = models.ForeignKey(Experience, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('project', 'experience')
+        unique_together = ("project", "experience")
