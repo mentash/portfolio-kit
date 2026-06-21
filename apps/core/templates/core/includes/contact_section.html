@@ -1,0 +1,39 @@
+<section id="contact" class="portfolio-card">
+    <h2 class="h3 mb-3">Contact</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="{{ contact_form.name.id_for_label }}">Name</label>
+                {{ contact_form.name }}
+                {% if contact_form.name.errors %}
+                    <div class="text-danger small mt-1">{{ contact_form.name.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="{{ contact_form.email.id_for_label }}">Email</label>
+                {{ contact_form.email }}
+                {% if contact_form.email.errors %}
+                    <div class="text-danger small mt-1">{{ contact_form.email.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="{{ contact_form.subject.id_for_label }}">Subject</label>
+                {{ contact_form.subject }}
+                {% if contact_form.subject.errors %}
+                    <div class="text-danger small mt-1">{{ contact_form.subject.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="{{ contact_form.message.id_for_label }}">Message</label>
+                {{ contact_form.message }}
+                {% if contact_form.message.errors %}
+                    <div class="text-danger small mt-1">{{ contact_form.message.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </div>
+        </div>
+    </form>
+</section>

@@ -1,23 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    {% include 'includes/head.html' %}
-    {% block extra_head %}{% endblock %}
-</head>
-<body>
-    <div class="page">
-        {% include 'includes/navbar.html' %}
+    <head>
+        {% include 'includes/head.html' %}
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body>
+        <div class="page">
+            {% include 'includes/navbar.html' %}
 
-        <!-- Main content -->
-        <main id="top" class="page-wrapper">
-            {% block content %}{% endblock %}
-        </main>
+            <!-- Main content -->
+            <main id="top" class="page-wrapper">
+                {% block content %}{% endblock %}
+            </main>
 
-        {% include 'includes/footer.html' %}
-    </div>
+            {% include 'includes/footer.html' %}
+        </div>
 
-    {% include 'includes/scripts.html' %}
-    {% block extra_scripts %}{% endblock %}
-</body>
+        {% include 'includes/scripts.html' %}
+        {% block extra_scripts %}{% endblock %}
+    </body>
 </html>

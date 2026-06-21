@@ -1,30 +1,25 @@
-<!-- Experience Section -->
-<section id="experience" class="py-5">
-    <div class="container-xl">
-        <h2 class="mb-4">Experience</h2>
-        {% for exp in profile.experience.all %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="card-title">{{ exp.title }}</h5>
-                            <p class="card-subtitle text-secondary mb-2">{{ exp.company }}</p>
-                            <p class="card-text">{{ exp.description }}</p>
-                        </div>
-                        <div class="col-md-4 text-end">
-                            <div class="text-secondary">
-                                {% if exp.end_date %}
-                                    {{ exp.start_date|date:"M Y" }} – {{ exp.end_date|date:"M Y" }}
-                                {% else %}
-                                    {{ exp.start_date|date:"M Y" }} – Present
-                                {% endif %}
-                            </div>
-                        </div>
+<section id="experience" class="portfolio-card">
+    <h2 class="h3 mb-3">Experience</h2>
+
+    {% if profile.experience.all %}
+        <div class="timeline-rail">
+            {% for exp in profile.experience.all %}
+                <div class="{% if not forloop.last %}mb-4{% endif %}">
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
+                        <h3 class="h5 mb-0">{{ exp.position }}</h3>
+                        <span class="small text-secondary">
+                            {{ exp.start_date|date:"Y" }} -
+                            {% if exp.end_date %}{{ exp.end_date|date:"Y" }}{% else %}Present{% endif %}
+                        </span>
                     </div>
+                    <div class="text-primary mb-1">{{ exp.company }}</div>
+                    {% if exp.description %}
+                        <p class="mb-0 text-secondary">{{ exp.description }}</p>
+                    {% endif %}
                 </div>
-            </div>
-        {% empty %}
-            <p class="text-secondary">No experience yet.</p>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-secondary mb-0">No experience yet.</p>
+    {% endif %}
 </section>

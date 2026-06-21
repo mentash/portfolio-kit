@@ -1,29 +1,40 @@
-<!-- Hero/About Section -->
-<section id="about" class="py-5 bg-light">
-    <div class="container-xl">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h1 class="mb-3">{{ profile.name }}</h1>
-                {% if profile.title %}
-                    <p class="lead text-secondary mb-3">{{ profile.title }}</p>
-                {% endif %}
-                {% if profile.bio %}
-                    <p class="mb-3">{{ profile.bio|linebreaks }}</p>
-                {% endif %}
-                <div>
-                    {% if profile.email %}
-                        <a href="mailto:{{ profile.email }}" class="btn btn-primary">Email Me</a>
-                    {% endif %}
-                    {% if profile.phone %}
-                        <a href="tel:{{ profile.phone }}" class="btn btn-outline-primary">Call Me</a>
-                    {% endif %}
+<section id="about" class="portfolio-card">
+    <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+        <div class="rounded-circle bg-primary-lt text-primary d-flex align-items-center justify-content-center fw-bold"
+             style="width: 72px; height: 72px; font-size: 1.25rem;">
+            {{ profile.name|slice:":1"|upper }}
+        </div>
+
+        <div class="flex-grow-1">
+            <h1 class="h2 mb-1">{{ profile.name }}</h1>
+            <p class="text-secondary mb-3">Software engineer</p>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="#projects" class="btn btn-primary">View Work</a>
+                <a href="mailto:{{ profile.email }}" class="btn btn-outline-secondary">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-2 mt-3 pt-3 border-top">
+        <div class="col-md-6">
+            <div class="p-2 rounded bg-body-secondary">
+                <div class="small text-secondary">Pinned project</div>
+                <div class="fw-medium">
+                    {% with first_project=profile.projects.all|first %}
+                        {% if first_project %}{{ first_project.name }}{% else %}No project yet{% endif %}
+                    {% endwith %}
                 </div>
             </div>
-            {% if profile.avatar %}
-                <div class="col-md-4 text-center">
-                    <img src="{{ profile.avatar.url }}" alt="{{ profile.name }}" class="img-fluid rounded-3" style="max-width: 250px;">
+        </div>
+        <div class="col-md-6">
+            <div class="p-2 rounded bg-body-secondary">
+                <div class="small text-secondary">Top skill</div>
+                <div class="fw-medium">
+                    {% with top_skill=profile.skills.all|first %}
+                        {% if top_skill %}{{ top_skill.name }} · {{ top_skill.proficiency }}/10{% else %}No skill yet{% endif %}
+                    {% endwith %}
                 </div>
-            {% endif %}
+            </div>
         </div>
     </div>
 </section>

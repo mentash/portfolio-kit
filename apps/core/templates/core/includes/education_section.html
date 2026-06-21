@@ -1,35 +1,22 @@
-<!-- Education Section -->
-<section id="education" class="py-5">
-    <div class="container-xl">
-        <h2 class="mb-4">Education</h2>
-        {% for edu in profile.education.all %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h5 class="card-title">{{ edu.degree }}</h5>
-                            <p class="card-subtitle text-secondary mb-2">{{ edu.institution }}</p>
-                            {% if edu.field_of_study %}
-                                <p class="card-subtitle text-secondary mb-2">Field: {{ edu.field_of_study }}</p>
-                            {% endif %}
-                            {% if edu.description %}
-                                <p class="card-text">{{ edu.description }}</p>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-4 text-end">
-                            <div class="text-secondary">
-                                {% if edu.end_date %}
-                                    {{ edu.start_date|date:"M Y" }} – {{ edu.end_date|date:"M Y" }}
-                                {% else %}
-                                    {{ edu.start_date|date:"M Y" }} – Present
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
+<section id="education" class="portfolio-card">
+    <h2 class="h3 mb-3">Education</h2>
+
+    {% for edu in profile.education.all %}
+        <div class="{% if not forloop.last %}pb-3 mb-3 border-bottom{% endif %}">
+            <div class="d-flex justify-content-between flex-wrap gap-2">
+                <div>
+                    <h3 class="h5 mb-1">{{ edu.institution }}</h3>
+                    <p class="mb-0 text-secondary">
+                        {{ edu.degree }} in {{ edu.field_of_study }}
+                    </p>
                 </div>
+                <span class="small text-secondary">
+                    {{ edu.start_date|date:"Y" }} -
+                    {% if edu.end_date %}{{ edu.end_date|date:"Y" }}{% else %}Present{% endif %}
+                </span>
             </div>
-        {% empty %}
-            <p class="text-secondary">No education yet.</p>
-        {% endfor %}
-    </div>
+        </div>
+    {% empty %}
+        <p class="text-secondary mb-0">No education yet.</p>
+    {% endfor %}
 </section>
